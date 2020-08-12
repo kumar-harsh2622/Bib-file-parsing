@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bib.css">
+    <script type="text/javascript" src="/js/bib2html.js"></script>
+</head>
+
+<body>
+    <textarea hidden name="bibtex_input" id="bibtex_input" cols=50 rows=20>
+           <%= bibtex %>
+    </textarea>
+    <div id="bibtex_errors"></div>
+    <fieldset>
+        <div class="bibtex_template">
+            <li>
+                <a class="url"><span class="title"></span></a></br>
+                <span class="author"></span></br>
+                <span class="booktitle"></span>
+                <span class="if publisher">
+                    <span class="publisher"></span>.
+                </span>
+                <span class="if pages">
+                    p. <span class="pages"></span>.
+                </span>
+                <span class="if year">
+                    <span class="year"></span></span>
+                </br>
+                <a class="bibtexCodeLink">
+                    [bibtex]
+                </a>
+                </br></br>
+            </li>
+
+        </div>
+
+        <ol id="bibtex_display">
+        </ol>
+    </fieldset>
+</body>
+
+</html>
