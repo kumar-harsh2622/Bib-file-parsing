@@ -52,6 +52,6 @@ app.post("/post", upload.single('bibFile'), (req, res) => {
     const fileName = _.lowerCase(req.file.originalname)
     res.redirect("/post/" + fileName)
 })
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log("Server is running at port 3000")
 })
