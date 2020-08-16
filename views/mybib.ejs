@@ -1,0 +1,89 @@
+<%- include("partials/header"); %>
+<style>
+    .bib {
+        width: 100%;
+    }
+
+    .bib li {
+        margin-top: 20px;
+    }
+
+    .bib li:hover {
+        background: #eee
+    }
+
+    .header {
+        padding: 0px 0px 0px 10px;
+    }
+
+    .entry {
+        font-size: medium;
+        font-family: "Trebuchet MS", sans-serif;
+    }
+
+    .entry em {
+        font-weight: bold;
+    }
+</style>
+<% if(books.length!=0){%>
+<div class="bib books">
+    <div class="header" style="background:rgb(243, 188, 6);">
+        <h3>Books</h3>
+    </div>
+    <ol>
+        <% books.forEach(entry=>{%>
+        <li>
+            <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                <span class="title"><b>"<%= entry.entryTags.TITLE %>"</b></span>,
+                <span class="publisher"><b><%= entry.entryTags.PUBLISHER %></b></span>,
+                <% if(entry.entryTags.ADDRESS){%>
+                <span class="address"><%=entry.entryTags.ADDRESS %>-</span><%}%>
+                <span class="year"><%= entry.entryTags.YEAR %></span></div>
+        </li>
+        <%})%>
+    </ol>
+</div>
+<%}%>
+<% if(journals.length!=0){%>
+<div class="bib journals">
+    <div class="header" style="background:rgb(243, 188, 6);">
+        <h3>Journals</h3>
+    </div>
+    <ol>
+        <% journals.forEach(entry=>{%>
+        <li>
+            <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
+                <span class="journal"><em>"<%= entry.entryTags.JOURNAL %>"</em></span>,
+                <% if(entry.entryTags.MONTH){%>
+                <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
+                <span class="year"><%= entry.entryTags.YEAR %></span>,
+                <span class="pages">p.<%= entry.entryTags.PAGES %></span></div>
+        </li>
+        <%})%>
+    </ol>
+</div>
+<%}%>
+<% if(conferences.length!=0){%>
+<div class="bib conferences">
+    <div class="header" style="background:rgb(243, 188, 6);">
+        <h3>Conferences</h3>
+    </div>
+    <ol>
+        <% conferences.forEach(entry=>{%>
+        <li>
+            <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
+                <span class="booktitle"><em>"<%= entry.entryTags.BOOKTITLE%>"</em></span>,
+                <span class="pages">p.<%= entry.entryTags.PAGES %></span>,
+                <% if(entry.entryTags.LOCATION){%>
+                <span class="location"><%=entry.entryTags.LOCATION %>,</span><%}%>
+                <% if(entry.entryTags.MONTH){%>
+                <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
+                <span class="year"><%= entry.entryTags.YEAR %></span></div>
+        </li>
+        <%})%>
+    </ol>
+</div>
+<%}%>
+<%- include("partials/footer"); %>

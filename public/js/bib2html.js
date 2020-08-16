@@ -338,11 +338,10 @@ function BibtexDisplay() {
         var old = output.find("*");
 
         // iterate over bibTeX entries
-        var entries = b.getEntries();
+        const entries = b.getEntries();
         for (var entryKey in entries)
             if (!entries[entryKey]["BIBTEXCODE"].startsWith("@proceedings{")) {
                 var entry = entries[entryKey];
-
                 if (entry["YEAR"] != yearOfPreviousEntry) {
                     output.append(
                         "<div class='yearpublication'>" + entry["YEAR"] + "</div>"
