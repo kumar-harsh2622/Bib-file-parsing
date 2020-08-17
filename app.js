@@ -35,9 +35,6 @@ app.post("/post", upload.single('bibFile'), (req, res) => {
     const fileName = _.lowerCase(req.file.originalname)
     res.redirect("/post/" + fileName)
 })
-const journals = [],
-    conferences = [],
-    books = []
 
 function removeSpecial(params) {
     params.forEach(entry => {
@@ -47,7 +44,7 @@ function removeSpecial(params) {
         }
     })
 }
-// console.log(newData);
+// console.log(files);
 app.get("/post/:fileName", (req, res) => {
     const fileName = req.params.fileName
     files.forEach(file => {
@@ -57,6 +54,9 @@ app.get("/post/:fileName", (req, res) => {
                 if (!err) {
                     var bib = bibtexParse.toJSON(data)
                     removeSpecial(bib)
+                    var journals = [],
+                        conferences = [],
+                        books = []
                     // console.log(bib);
                     bib.forEach(entry => {
                         if (entry.entryType === "ARTICLE") journals.push(entry)
