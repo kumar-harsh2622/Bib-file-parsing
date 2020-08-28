@@ -58,7 +58,9 @@
                 <% if(entry.entryTags.MONTH){%>
                 <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
                 <span class="year"><%= entry.entryTags.YEAR %></span>,
-                <span class="pages">p.<%= entry.entryTags.PAGES %></span></div>
+                <span class="pages">p.<%= entry.entryTags.PAGES %></span>
+                <% if(entry.entryTags.URL){%>
+                <span class="url"><%=entry.entryTags.MONTH %>-</span><%}%></div>
         </li>
         <%})%>
     </ol>

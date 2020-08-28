@@ -2,38 +2,53 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const fs = require('fs')
-const multer = require('multer')
+// const multer = require('multer')
 // const bibtexParse = require('bibtex-parser-js')
+const formidable = require("formidable")
 const _ = require('lodash')
 const bibtexParse = require("./bibtexParse")
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, "uploads")
-    },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
+const mv = require("mv")
+// const storage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, "uploads")
+//     },
+//     filename: function(req, file, cb) {
+//         cb(null, file.originalname)
+//     }
+// })
 
-var upload = multer({
-    storage: storage
-})
+// var upload = multer({
+//     storage: storage
+// })
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({
     extended: true
 }))
 
-const files = []
+const bibfiles = []
 app.get("/", (req, res) => {
     res.render("bibfile")
 })
 
-app.post("/post", upload.single('bibFile'), (req, res) => {
-    const file = req.file
-    files.push(file)
-    const fileName = _.lowerCase(req.file.originalname)
-    res.redirect("/post/" + fileName)
+app.post("/post", (req, res) => {
+    var form = new formidable.IncomingForm()
+    form.parse(req, function(err, fields, files) {
+        var file = files.bibFile
+        var oldpath = files.bibFile.path
+        var newpath = __dirname + "/uploads/" + files.bibFile.name
+        file.path = newpath
+        const fileName = _.lowerCase(files.bibFile.name)
+        mv(oldpath, newpath, (err => {
+            if (err) console.log(err);
+            else {
+                console.log("File uploaded");
+            }
+        }))
+        // console.log(file);
+        bibfiles.push(file)
+        res.redirect("/post/" + fileName)
+    })
 })
 
 function removeSpecial(params) {
@@ -47,8 +62,8 @@ function removeSpecial(params) {
 // console.log(files);
 app.get("/post/:fileName", (req, res) => {
     const fileName = req.params.fileName
-    files.forEach(file => {
-        var fname = _.lowerCase(file.originalname)
+    bibfiles.forEach(file => {
+        var fname = _.lowerCase(file.name)
         if (fname === fileName) {
             fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
                 if (!err) {
@@ -62,6 +77,15 @@ app.get("/post/:fileName", (req, res) => {
                         if (entry.entryType === "ARTICLE") journals.push(entry)
                         else if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
                         else if (entry.entryType === "BOOKS") books.push(entry)
+                    })
+                    journals.sort(function(a, b) {
+                        return b.entryTags.YEAR - a.entryTags.YEAR;
+                    })
+                    conferences.sort(function(a, b) {
+                        return b.entryTags.YEAR - a.entryTags.YEAR;
+                    })
+                    books.sort(function(a, b) {
+                        return b.entryTags.YEAR - a.entryTags.YEAR;
                     })
                     // console.log(journals);
                     res.render("mybib", { journals: journals, conferences: conferences, books: books })
