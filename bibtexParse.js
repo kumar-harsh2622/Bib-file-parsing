@@ -1,12 +1,3 @@
-/* start bibtexParse 0.0.2 */
-
-// Original work by Henrik Muehe (c) 2010
-//
-// CommonJS port by Mikola Lysenko 2013
-//
-// Port to Browser lib by ORCID / RCPETERS
-//
-// Issues:
 //  no comment handling within strings
 //  no string concatenation
 //  no variable values yet
